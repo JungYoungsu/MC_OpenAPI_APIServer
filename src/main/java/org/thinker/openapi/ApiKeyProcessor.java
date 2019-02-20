@@ -45,12 +45,30 @@ public class ApiKeyProcessor {
 	}
 
 	public String requestNewAPIKey(ApiKeyVO apiKeyVO) throws Exception {
-		//아래 라인을 삭제하고 이곳에 코드를 작성하세요.
-		return null;
+		String apiKey = DigestUtils.md5Hex(UUID.randomUUID().toString());
+		System.out.println("## hostname : " + apiKeyVO);
+		System.out.println("## keyValue : " + apiKey);
+		apiKeyVO.setApiKey(apiKey);
+		try {
+			repository.create(apiKeyVO);
+		} catch (Exception e) { // 중복될 확률이 거의 없지만 혹시라도
+			throw new ApiKeyException("SAME KEY IS ALREADY EXIST.");
+		}
+		return apiKey;
 	}
 
 	public void checkApiKey(String hostname, String apiKey) throws ApiKeyException {
-		//이곳에 코드를 작성하세요.
+		ApiKeyVO vo = repository.read(apiKey);
+		if (vo == null) {
+			throw new ApiKeyException("OPEN API KEY IS UNREGISTED");
+		}
+		if (hostname == null || hostname.equals(vo.getHostName()) == false) {
+			throw new ApiKeyException("HOSTNAME IS INVALID");
+		}
+		if (vo.getCount() >= maxCount) {
+			throw new ApiKeyException("EXCESSIVE NUMVER OF REQUEST");
+		}
+		repository.update(apiKey);
 	}
 
 }
