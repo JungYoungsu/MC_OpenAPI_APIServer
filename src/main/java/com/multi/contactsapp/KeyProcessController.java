@@ -10,23 +10,23 @@ import org.thinker.openapi.ApiKeyVO;
 
 @Controller
 public class KeyProcessController {
-	
+
 	@Autowired
 	private ApiKeyProcessor keyProcessor;
-	
-	@RequestMapping(method=RequestMethod.GET, value="/key/request")
-	public String getForm(){		
+
+	@RequestMapping(method = RequestMethod.GET, value = "/key/request")
+	public String getForm() {
 		return "keygen";
 	}
-	
-	@RequestMapping(value="/key/makeKey", method=RequestMethod.POST)
-	public ModelAndView makeApiKey(ApiKeyVO apiKeyVO)throws Exception{
+
+	@RequestMapping(value = "/key/makeKey", method = RequestMethod.POST)
+	public ModelAndView makeApiKey(ApiKeyVO apiKeyVO) throws Exception {
 
 		String keyValue = keyProcessor.requestNewAPIKey(apiKeyVO);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("apikey", keyValue);
 		mav.setViewName("keyresult");
-		
+
 		return mav;
 	}
 }
