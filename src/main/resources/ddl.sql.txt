@@ -1,0 +1,30 @@
+--H2 DB용 테이블, 시퀀스
+
+DROP SEQUENCE contact_seq;
+DROP TABLE contact;
+
+CREATE TABLE contact 
+(
+	no			NUMBER 			PRIMARY KEY,
+	name		VARCHAR2(20)	NOT NULL,
+	tel			VARCHAR2(30)	NOT NULL,
+	address 	VARCHAR2(200)
+);
+
+CREATE sequence contact_seq
+	START WITH 1
+	INCREMENT BY 1;
+	
+	
+DROP TABLE tbl_apiKey;
+
+create table tbl_apikey 
+(
+ apiKey varchar2(200) NOT NULL,
+ hostName varchar2(200) NOT NULL, 
+ count number default 0,
+ regdate date default sysdate,
+ updateDate date default sysdate
+);
+
+alter table tbl_apikey add constraint pk_apikey  primary key (apiKey);

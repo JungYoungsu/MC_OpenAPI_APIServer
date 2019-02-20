@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="contact">
+	<select id="selectall" resultType="Contact">
+		SELECT no, name, tel, address
+		FROM contact
+		ORDER BY no DESC
+	</select>
+	<select id="selectone" parameterType="Contact"
+		resultType="Contact">
+		SELECT no, name, tel, address FROM contact
+		WHERE no=#{no}
+	</select>
+	<select id="selectcnt" resultType="int">
+		SELECT count(*) FROM contact
+	</select>
+	<update id="update" parameterType="Contact">
+		UPDATE contact
+		SET name=#{name}, tel=#{tel}, address=#{address}
+		WHERE no=#{no}
+	</update>
+	<delete id="delete" parameterType="Contact">
+		DELETE contact WHERE no=#{no}
+	</delete>
+	<insert id="insert" parameterType="Contact">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select contact_seq.nextval from dual
+		</selectKey>
+		INSERT INTO contact (no, name, tel, address)
+		VALUES (#{no}, #{name}, #{tel}, #{address});
+	</insert>
+
+</mapper>

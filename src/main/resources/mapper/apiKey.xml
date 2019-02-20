@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="apiKey">
+	<select id="select" resultType="org.thinker.openapi.ApiKeyVO">
+	   SELECT hostName, apiKey, count 
+	   FROM tbl_apikey 
+	   WHERE apiKey = #{apiKey}
+	</select>
+	<insert id="insert" parameterType="org.thinker.openapi.ApiKeyVO">
+		INSERT INTO tbl_apikey (hostName, apiKey) values (#{hostName}, #{apiKey})
+	</insert>
+	<update id="updateCnt">
+	  UPDATE tbl_apiKey SET count = count+ 1 WHERE apiKey = #{apiKey}
+	</update>
+</mapper>  
